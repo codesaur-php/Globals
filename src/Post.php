@@ -62,7 +62,8 @@ class Post extends superGlobal
         if (!defined('CRYPT_BLOWFISH')
                 || !CRYPT_BLOWFISH
         ) {
-            return $verify ? md5($value) === $verify : md5($value);
+            $md5_password = md5($value);
+            return $verify ? $md5_password === $verify : $md5_password;
         }
         
         if ($verify) {
