@@ -19,7 +19,7 @@ abstract class superGlobal
     public function filter_var($var, int $filter = FILTER_DEFAULT, $options = null)
     {
         if (empty($var)) {
-            throw new InvalidArgumentException('Filter variable must be set');
+            throw new InvalidArgumentException(__CLASS__ . ': Filter variable must be set');
         }
         
         return filter_var($var, $filter, $options);
