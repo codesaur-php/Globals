@@ -55,7 +55,7 @@ class Post extends superGlobal
         return parent::filter_var($var, FILTER_VALIDATE_EMAIL);
     }
     
-    final public function asPassword($var, bool $verify = false)
+    final public function asPassword($var, $verify = false)
     {
         $value = $this->asString($var);
         
