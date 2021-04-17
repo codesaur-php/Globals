@@ -51,8 +51,7 @@ class Server extends superGlobal
             if ($this->has('HTTP_CLIENT_IP')
                     && $this->assertIP($this->raw('HTTP_CLIENT_IP'))) {
                 return $this->raw('HTTP_CLIENT_IP');
-            }
-            
+            }            
             foreach (explode(',', $this->raw('HTTP_X_FORWARDED_FOR')) as $ip) {
                 if ($this->assertIP(trim($ip))) {
                     return $ip;
