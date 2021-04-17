@@ -19,7 +19,7 @@ class Server extends superGlobal
         return $_SERVER[$var_name];
     }
     
-    public function checkIP(string $ip): bool
+    public function assertIP(string $ip): bool
     {
         $real = ip2long($ip);
         if (empty($ip) || $real === -1 || $real === false) {
@@ -46,32 +46,31 @@ class Server extends superGlobal
     }
     
     public function getRemoteAddr(): string
-    {
-        if ($this->has('HTTP_X_FORWARDED_FOR')
-                && $this->has('HTTP_CLIENT_IP')
-                && $this->checkIP($this->raw('HTTP_CLIENT_IP'))) {
-            return $this->raw('HTTP_CLIENT_IP');
-        }
-        
+    {        
         if ($this->has('HTTP_X_FORWARDED_FOR')) {
+            if ($this->has('HTTP_CLIENT_IP')
+                    && $this->assertIP($this->raw('HTTP_CLIENT_IP'))) {
+                return $this->raw('HTTP_CLIENT_IP');
+            }
+            
             foreach (explode(',', $this->raw('HTTP_X_FORWARDED_FOR')) as $ip) {
-                if ($this->checkIP(trim($ip))) {
+                if ($this->assertIP(trim($ip))) {
                     return $ip;
                 }
             }
         }
         
         if ($this->has('HTTP_X_FORWARDED')
-                && $this->checkIP($this->raw('HTTP_X_FORWARDED'))) {
+                && $this->assertIP($this->raw('HTTP_X_FORWARDED'))) {
             return $this->raw('HTTP_X_FORWARDED');
         } elseif ($this->has('HTTP_X_CLUSTER_CLIENT_IP')
-                && $this->checkIP($this->raw('HTTP_X_CLUSTER_CLIENT_IP'))) {
+                && $this->assertIP($this->raw('HTTP_X_CLUSTER_CLIENT_IP'))) {
             return $this->raw('HTTP_X_CLUSTER_CLIENT_IP');
         } elseif ($this->has('HTTP_FORWARDED_FOR')
-                && $this->checkIP($this->raw('HTTP_FORWARDED_FOR'))) {
+                && $this->assertIP($this->raw('HTTP_FORWARDED_FOR'))) {
             return $this->raw('HTTP_FORWARDED_FOR');
         } elseif ($this->has('HTTP_FORWARDED')
-                && $this->checkIP($this->raw('HTTP_FORWARDED'))) {
+                && $this->assertIP($this->raw('HTTP_FORWARDED'))) {
             return $this->raw('HTTP_FORWARDED');
         } else {
             return $this->raw('REMOTE_ADDR');
