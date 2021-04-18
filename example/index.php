@@ -1,5 +1,7 @@
 <?php
 
+namespace codesaur\Globals\Example;
+
 /* DEV: v1.2021.02.27
  * 
  * This is an example script!
